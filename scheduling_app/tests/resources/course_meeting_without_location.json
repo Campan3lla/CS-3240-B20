@@ -1,0 +1,63 @@
+{
+    "index": 101,
+    "crse_id": "006846",
+    "crse_offer_nbr": 1,
+    "strm": "0966",
+    "session_code": "1",
+    "session_descr": "Regular Academic Session",
+    "class_section": "2433",
+    "location": "MAIN",
+    "location_descr": "On Grounds",
+    "start_dt": "06/11/1996",
+    "end_dt": "08/08/1996",
+    "class_stat": "A",
+    "campus": "MAIN",
+    "campus_descr": "Main Campus",
+    "class_nbr": 10111,
+    "acad_career": "UGRD",
+    "acad_career_descr": "Undergraduate",
+    "component": "LEC",
+    "subject": "CS",
+    "subject_descr": "Computer Science",
+    "catalog_nbr": "101",
+    "class_type": "E",
+    "schedule_print": "Y",
+    "acad_group": "ENGR",
+    "instruction_mode": "P",
+    "instruction_mode_descr": "In Person",
+    "acad_org": "CS",
+    "wait_tot": 0,
+    "wait_cap": 0,
+    "class_capacity": 20,
+    "enrollment_total": 1,
+    "enrollment_available": 19,
+    "descr": "Introduction to Computing",
+    "rqmnt_designtn": "",
+    "units": "3",
+    "combined_section": "N",
+    "enrl_stat": "C",
+    "enrl_stat_descr": "Closed",
+    "topic": "",
+    "instructors": [
+      {
+        "name": "Gabriel Robins",
+        "email": "gr3e@virginia.edu"
+      }
+    ],
+    "section_type": "Lecture",
+    "meetings": [
+      {
+        "days": "-",
+        "start_time": "",
+        "end_time": "",
+        "start_dt": "06/11/1996",
+        "end_dt": "08/08/1996",
+        "facility_id": "-",
+        "facility_descr": "-",
+        "instructor": "Gabriel Robins"
+      }
+    ],
+    "crse_attr": "",
+    "crse_attr_value": "",
+    "reserve_caps": []
+  }

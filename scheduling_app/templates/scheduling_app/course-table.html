@@ -1,0 +1,167 @@
+{% load static %}
+{% load socialaccount %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+<head>
+  <title>Course List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="{% static 'scheduling_app/JS/jquery-3.6.3.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'scheduling_app/CSS/redo.css' %}">
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap5.min.css">
+</head>
+
+<body>
+  {% include 'scheduling_app/common/navbar.html' %}
+  {% include 'scheduling_app/common/schedules/create-schedule-modal.html' %}
+
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-1 sidenav"></div>
+
+      <div class="col-10 text-start">
+        <div class="container-fluid my-3">
+          <button class="btn btn-primary container-fluid" type="button" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="false" aria-controls="filters">
+            Toggle Search Bar
+          </button>
+          <div class="container-fluid collapse card mt-5" id="filters">
+            <div class="card-body">
+              <form method="post">
+                {% csrf_token %}
+                <div class="d-grid gap-2">
+                  <div class="input-group">
+                    <label for="subject" class="input-group-text">Subject:</label>
+                    <input type="text" name="subject" id="subject" class="form-control" placeholder="CS" maxlength="16">
+                    <label for="catalog_number" class="input-group-text">Catalog Number:</label>
+                    <input type="number" name="catalog_number" id="catalog_number" class="form-control" placeholder="3140" min="0" max="9999">
+                  </div>
+                  <div class="input-group">
+                    <label  for="class_number" class="input-group-text">Course ID:</label>
+                    <input type="number" name="class_number" id="class_number" class="form-control text-muted" placeholder="123456" min="0" max="99999">
+                    <label  for="keyword" class="input-group-text">Keyword:</label>
+                    <input type="text" name="keyword" id="class_number" class="form-control text-muted" placeholder="Calculus" min="1" max="128">
+                  </div>
+                  <div class="input-group">
+                    <label for="professor" class="input-group-text">Professor:</label>
+                    <input type="text" name="professor" id="professor" class="form-control" placeholder="John Doe" maxlength="64">
+                  </div>
+                  <input type="hidden" name="filter_form" value="filter_form">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i> Search
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      <div class="collapse show" id="filters">
+        <table
+              class="table table-light table-striped border border-secondary"
+              id="course-table"
+              data-search="true"
+              data-custom-search="customSearch"
+          >
+          <thead>
+            <tr>
+              <th>Course Identifier</th>
+              <th>Class Number</th>
+              <th>Course Name</th>
+              <th>Instructor</th>
+              <th>Days</th>
+              <th>Times</th>
+              {% if user.is_authenticated and user.account_type == 'student' %}
+                <th>Add Course to Schedule</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+              {% for course in courses %}
+                <tr>
+                  <td>{{ course.course_identifier.subject }} {{ course.course_identifier.catalog_number }}</td>
+                  <td>{{ course.registration_information.class_number }}</td>
+                  <td>{{ course.course_identifier.course_description }}</td>
+                  <td>
+                    {% for instructor in course.instructors.all %}
+                      {% if forloop.last %}
+                        {{ instructor.name }}
+                      {% else %}
+                        {{ instructor.name }},
+                      {% endif %}
+                    {% endfor %}
+                  </td>
+                  {% for meeting in course.meeting.all %}
+                    {% if meeting.days == '-' %}
+                      <td>Online/TBA</td>
+                      <td>Online/TBA</td>
+                    {% else %}
+                      <td>{{ meeting.days }}</td>
+                      <td>{{ meeting.start_time }} to {{ meeting.end_time }}</td>
+                    {% endif %}
+                  {% endfor %}
+                  {% if not course.meeting.all %}
+                    <td>-</td>
+                    <td>-</td>
+                  {% endif %}
+                  {% if user.is_authenticated and user.account_type == 'student' %}
+                    <td>
+                      <form method="post">
+                        {% csrf_token %}
+                        <div class="btn-group dropstart">
+                          <button class="btn btn-light btn-outline-secondary dropdown-toggle" type="button" id="{{ course.pk }}"
+                                  data-bs-toggle="dropdown" aria-expanded="false">
+                            Add to
+                          </button>
+                          <ul class="dropdown-menu text-center" aria-labelledby="{{ course.pk }}">
+                              <input type="hidden" name="add_course_to_schedule_form" value="add_course_to_schedule_form">
+                              <input type="hidden" name="add_course" value="{{ course.pk }}">
+                            {% if schedules %}
+                              {% for schedule in schedules %}
+                                <li class="auto-resize">
+                                  <button type="submit" name="add_schedule" value="{{ schedule.pk }}" class="dropdown-item btn-primary {% if schedule.status != 'Status.NOT_SUBMITTED' %}disabled{% endif %}">
+                                    {{ schedule.name }}
+                                  </button>
+                                </li>
+                              {% endfor %}
+                            {% else %}
+                              <li class="auto-resize">
+                                <span class="dropdown-item disabled">No Schedules:</span>
+                              </li>
+                            {% endif %}
+                            <li class="auto-resize">
+                              <button type="button" class="dropdown-item btn btn-primary create-schedule" data-bs-toggle="modal" data-bs-target="#createSchedule">
+                                <b>Create Schedule <i class="bi bi-plus-circle"> </i></b>
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </form>
+                    </td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+      <div class="col-1 sidenav"></div>
+    </div>
+  </div>
+
+  {% include 'scheduling_app/common/footer.html' %}
+  {% include 'scheduling_app/common/message.html' %}
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.table').DataTable({
+            scrollY: "420px",
+            "scrollCollapse": false,
+        });
+    });
+</script>

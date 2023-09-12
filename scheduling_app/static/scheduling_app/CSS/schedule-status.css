@@ -1,0 +1,16 @@
+.not-submitted {
+  color: #d5d5d5;
+}
+
+.approved {
+  color: #00ff00;
+}
+
+.rejected {
+  color: #ff1e1e;
+}
+
+.pending {
+  color: #ffea00;
+}
+

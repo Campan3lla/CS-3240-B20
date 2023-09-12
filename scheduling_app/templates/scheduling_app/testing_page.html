@@ -1,0 +1,42 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admin Testing Page</title>
+  <meta charset="utf-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'scheduling_app/CSS/redo.css' %}">
+</head>
+
+<body>
+  {% include 'scheduling_app/common/navbar.html' %}
+
+  <div class="text-center container-fluid h-100">
+    <div class="row h-100">
+
+      <div class="col-1 sidenav"></div>
+
+      <div class="col-10 text-start mt-3">
+        <h1>Admin Test Page</h1>
+        <p>These functionalities are implemented to help speed up the beta-testing process.</p>
+        <hr>
+        <h3>Admin Functionalities:</h3>
+        <div class="align-center">
+          <form method="post">
+            <button class="btn btn-primary" type="submit" name="create_schedules">Create Schedules</button>
+            <button class="btn btn-danger" type="submit" name="delete_user">Delete User</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-1 sidenav"></div>
+
+    </div>
+  </div>
+
+  {% include 'scheduling_app/common/footer.html' %}
+</body>
+</html>

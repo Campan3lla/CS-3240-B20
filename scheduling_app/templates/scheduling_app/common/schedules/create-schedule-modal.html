@@ -1,0 +1,23 @@
+  <div class="modal fade" id="createSchedule" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title">Create Schedule</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text">
+            <p>Please enter the name of the schedule you would wish to create.</p>
+              <label for="scheduleName">Schedule Name:</label>
+              <input required class="form-control" id="scheduleName" type="text" name="schedule_name" minlength="1" maxlength="64" placeholder="Schedule Name">
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="create_schedule_form" value="create_schedule_form">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

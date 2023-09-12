@@ -1,0 +1,48 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Home</title>
+  <meta charset="utf-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'scheduling_app/CSS/redo.css' %}">
+</head>
+
+<body>
+  {% include 'scheduling_app/common/navbar.html' %}
+
+  <div class="text-center container-fluid h-100">
+    <div class="row h-100">
+
+      <div class="col-1 sidenav"></div>
+
+      <div class="col-10 text-start mt-3">
+        <h1>Welcome to B20's Project</h1>
+        <p>This website was designed and created to fulfill CS 3240's semester project.</p>
+        <hr>
+        <h3>Project Requirements:</h3>
+        <p>In order to register for classes at UVA, a student must have their advisor sign off on their schedule.
+          This app allows students to view courses for the upcoming semester, create a schedule, and then send it to an advisor for approval.
+            <ul>
+              <li>Students must be able to search classes by course mnemonic, course number, and course name.</li>
+              <li>Students must be able to add courses to a schedule, which will be saved with the student’s account.</li>
+              <li>A schedule cannot have courses that have a time conflict.</li>
+              <li>Students must be able to “submit” the schedule to an advisor to approve the schedule.</li>
+              <li>An advisor should see all schedules available for review upon login.</li>
+              <li>Any advisor should be able to approve or reject any schedule.</li>
+              <li>When a schedule is approved or rejected, the student should be able to see this when they login.</li>
+          </ul>
+        <a href="{% url 'scheduling_app:login' %}">Login</a> to start.
+      </div>
+
+      <div class="col-1 sidenav"></div>
+
+    </div>
+  </div>
+
+  {% include 'scheduling_app/common/footer.html' %}
+</body>
+</html>
